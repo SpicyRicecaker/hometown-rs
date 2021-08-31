@@ -11,7 +11,7 @@ impl FontInterface {
     pub fn new(device: &wgpu::Device, format: wgpu::TextureFormat) -> Self {
         // Default font, let's use visitor
         let visitor = ab_glyph::FontArc::try_from_slice(include_bytes!(
-            "..\\..\\..\\resources\\visitor2.ttf"
+            "../../../resources/visitor2.ttf"
         ))
         .unwrap();
         let glyph_brush = GlyphBrushBuilder::using_font(visitor).build(device, format);

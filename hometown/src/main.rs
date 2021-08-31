@@ -1,5 +1,4 @@
 use std::f32::consts::PI;
-
 use hometown::rain::{self, Falling, RainDropMachine, RainDropMachineWrapper};
 use rand::{
     distributions::Uniform,
@@ -87,6 +86,7 @@ struct Game {
 
 impl Game {
     fn new() -> Self {
+        let thickness = 2;
         let thickness = 4.0;
         let velocity = 10.0;
         let length = 50.0;

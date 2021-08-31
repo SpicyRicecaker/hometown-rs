@@ -1,5 +1,5 @@
 use rand::{distributions::Uniform, prelude::ThreadRng};
-use thomas::context::Context;
+use thomas::{context::Context, frontend::color::Color};
 
 pub enum RainDropMachineWrapper {
     Falling(RainDropMachine<Falling>),
@@ -79,7 +79,7 @@ impl RainDropMachine<Falling> {
         let y = self.state.length * sin / 2.0;
         let z = self.state.length * (cos + sin) / 2.0;
 
-        ctx.graphics.draw_line(x1, y1, x2, y2, thickness, color)
+        ctx.graphics.draw_line(x, y, x, y, 5.0, Color::from_hex("FFFFFF").unwrap())
     }
 }
 

@@ -108,6 +108,7 @@ impl State {
 
         self.surface.configure(&self.device, &self.config)
     }
+    /// Occurs when the physical window is changed. Only responsble for settings aspect ratio
     pub fn resize(&mut self, size: winit::dpi::PhysicalSize<u32>) {
         self.size = size;
         // Update swap chain description based off new size
@@ -118,5 +119,11 @@ impl State {
         self.camera.aspect_ratio = (size.width as f32 / size.height as f32) / 2.0;
         // println!("{}x{}, AR: {}", self.size.width, self.size.height, self.size.width as f32 / self.size.height as f32);
         // println!("CAMERA AR: {}", self.camera.aspect_ratio);
+    }
+    /// Occurs when the world dimensions change. Is not affected by the size of the physical
+    /// window. TODO is current run once in initialization, but it's sorta redundant. I don't
+    /// want to pass the size into state tho, if you know what I mean...
+    pub fn resize_game(&mut self, x: f32, y: f32 ) {
+        self.uniforms.update_model(x, y);
     }
 }

@@ -105,35 +105,49 @@ impl State {
             color.b as f32,
             color.a as f32,
         ];
+        // Could probably use linear algebra and matrices to make it MUCH more optimized, but have
+        // no clue how to accomplish this
         // Get angle of line
-        let angle = ((y2 - y1) / (x2 - x1)).atan();
+        let lr_angle = ((y2 - y1) / (x2 - x1)).atan();
         // Get perpendicular upper angle of line
-        let pangle = angle + PI / 2.0;
-        let r = thickness / 2.0;
+        let lr_p = lr_angle + PI / 2.0;
+        // The radius of the line
+        let lr_r = thickness / 2.0;
         // Get diffs
-        let pdx = pangle.cos() * r;
-        let pdy = pangle.sin() * r;
-        let pdz = pangle.cos() + pangle.sin();
+        let lr_dx = lr_p.cos() * lr_r;
+        let lr_dy = lr_p.sin() * lr_r;
+        let lr_dz = lr_p.cos() + lr_p.sin();
+
+        // Get angle of front back
+        let fb_angle = ((y2 - y1) / (z2 - z1)).atan();
+        // Get perpendicular upper angle of line
+        let fb_p = fb_angle + PI / 2.0;
+        // The radius of the line
+        let fb_r = thickness / 2.0;
+        // Get diffs
+        let fb_dx = lr_p.cos() * lr_r;
+        let fb_dy = lr_p.sin() * lr_r;
+        let fb_dz = lr_p.cos() + lr_p.sin();
 
         let vertices = &[
             // Top left, 0
             Vertex {
-                position: [x2 + pdx, y2 + pdy, 0.0],
+                position: [x2 + lr_dx, y2 + lr_dy, 0.0],
                 color,
             },
             // Top right, 1
             Vertex {
-                position: [x1 + pdx, y1 + pdy, 0.0],
+                position: [x1 + lr_dx, y1 + lr_dy, 0.0],
                 color,
             },
             // bot right, 2
             Vertex {
-                position: [x2 - pdx, y2 - pdy, 0.0],
+                position: [x2 - lr_dx, y2 - lr_dy, 0.0],
                 color,
             },
             // Bot left, 3
             Vertex {
-                position: [x1 - pdx, y1 - pdy, 0.0],
+                position: [x1 - lr_dx, y1 - lr_dy, 0.0],
                 color,
             },
         ];

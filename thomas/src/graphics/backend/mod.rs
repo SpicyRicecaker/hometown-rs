@@ -76,6 +76,7 @@ impl State {
 
         let camera = Camera::new(config.width as f32, config.height as f32);
 
+        // Check if the world dimensions are ok
         let mut uniforms = Uniforms::new(config.width as f32, config.height as f32);
         uniforms.update_view_proj(&camera);
 

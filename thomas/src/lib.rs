@@ -46,6 +46,7 @@ use image::GenericImageView;
 use resource::ResourceManager;
 pub use rodio;
 pub use winit;
+pub use cgmath;
 pub mod audio;
 mod resource;
 
@@ -61,11 +62,14 @@ pub use wgpu::Color;
 
 /// Contains parameters that are used by [`main::run`]
 pub struct Config {
+    /// Ticks is calculated at the beginning of main::run
     pub ticks: u32,
+    /// X_Y affects the projection matrix that [`thomas::graphics::backend::State`] uses
+    pub x_y: Option<(f32, f32)>
 }
 impl Default for Config {
     fn default() -> Self {
-        Self { ticks: 140 }
+        Self { ticks: 140, x_y: None }
     }
 }
 /// Builder for a [`Context`]
@@ -117,6 +121,11 @@ impl ContextBuilder {
         self.resource_mgr = path;
         self
     }
+    /// The coordinates of the game world
+    pub fn with_world_dimension(mut self, coords: (f32, f32, f32)) -> Self {
+        self.config.x_y_z = Some(coords);
+        self
+    }
     /// Creates a [`Context`] and [`EventLoop<()>`] using current settings, consuming the builder
     pub fn build(self) -> (EventLoop<()>, context::Context) {
         // Init logger for errors, etc.
@@ -153,7 +162,7 @@ impl ContextBuilder {
         });
 
         // Init [`wgpu`]
-        let graphics = futures::executor::block_on(graphics::backend::State::new(&window));
+        let graphics = futures::executor::block_on(graphics::backend::State::new(&window, self.config.x_y));
         // Init keyboard controller
         let keyboard = keyboard::Keyboard::new();
 

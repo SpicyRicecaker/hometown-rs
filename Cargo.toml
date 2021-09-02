@@ -1,8 +1,5 @@
 [workspace]
 
-members = [
-    "thomas",
-    "hometown"
-]
+members = ["thomas", "hometown"]
 
 resolver = "2"

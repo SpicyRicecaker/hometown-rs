@@ -44,25 +44,17 @@ impl Vertex {
 #[repr(C)]
 #[derive(Debug, Clone, Copy, bytemuck::Pod, bytemuck::Zeroable)]
 pub struct Uniforms {
-    view: [[f32; 4]; 4],
-    model: [[f32; 4]; 4],
+    view: [[f32; 4]; 4]
 }
 
 impl Uniforms {
     pub fn new(x: f32, y: f32) -> Self {
         Self {
             view: cgmath::Matrix4::identity().into(),
-            model: cgmath::ortho(0.0, x, y, 0.0, -1.0, 1.0).into(),
         }
     }
     pub fn update_view_proj(&mut self, camera: &Camera) {
         self.view = camera.build_view_projection_matrix().into();
-    }
-    /// TODO might need to add Z in the future, but I still have no idea what the -1.0 and 1.0
-    /// do as of now. Is it just "clip everything else?" Then how would we create a 3d ortho
-    /// matrix? Actually, do we even need to ?
-    pub fn update_model(&mut self, x: f32, y: f32) {
-        self.model = cgmath::ortho(0.0, x, y, 0.0, -1.0, 1.0).into();
     }
 }
 
@@ -71,7 +63,6 @@ impl Default for Uniforms {
     fn default() -> Self {
         Self {
             view: cgmath::Matrix4::identity().into(),
-            model: cgmath::ortho(0.0, 800.0, 0.0, 600.0, -1.0, 1.0).into(),
         }
     }
 }

@@ -41,12 +41,12 @@ use audio::Audio;
 use context::Context;
 pub mod graphics;
 mod keyboard;
+pub use cgmath;
 pub use graphics::frontend;
 use image::GenericImageView;
 use resource::ResourceManager;
 pub use rodio;
 pub use winit;
-pub use cgmath;
 pub mod audio;
 mod resource;
 
@@ -60,16 +60,39 @@ use std::path::PathBuf;
 use std::time::Instant;
 pub use wgpu::Color;
 
+pub struct Size {
+    /// Left to right
+    x: f32,
+    /// Up and down
+    y: f32,
+    /// Into and out of screen
+    z: f32,
+}
+
+/// Never call default for size lol
+impl Default for Size {
+    fn default() -> Self {
+        Self {
+            x: Default::default(),
+            y: Default::default(),
+            z: Default::default(),
+        }
+    }
+}
+
 /// Contains parameters that are used by [`main::run`]
 pub struct Config {
     /// Ticks is calculated at the beginning of main::run
     pub ticks: u32,
     /// X_Y affects the projection matrix that [`thomas::graphics::backend::State`] uses
-    pub x_y: Option<(f32, f32)>
+    pub world_size: Option<Size>,
 }
 impl Default for Config {
     fn default() -> Self {
-        Self { ticks: 140, x_y: None }
+        Self {
+            ticks: 140,
+            world_size: Default::default(),
+        }
     }
 }
 /// Builder for a [`Context`]
@@ -122,8 +145,8 @@ impl ContextBuilder {
         self
     }
     /// The coordinates of the game world
-    pub fn with_world_dimension(mut self, coords: (f32, f32, f32)) -> Self {
-        self.config.x_y_z = Some(coords);
+    pub fn with_world_dimension(mut self, size: Size) -> Self {
+        self.config.world_size = Some(size);
         self
     }
     /// Creates a [`Context`] and [`EventLoop<()>`] using current settings, consuming the builder
@@ -162,7 +185,8 @@ impl ContextBuilder {
         });
 
         // Init [`wgpu`]
-        let graphics = futures::executor::block_on(graphics::backend::State::new(&window, self.config.x_y));
+        let graphics =
+            futures::executor::block_on(graphics::backend::State::new(&window, self.config.world_size));
         // Init keyboard controller
         let keyboard = keyboard::Keyboard::new();
 

@@ -13,6 +13,8 @@ use buffers::Uniforms;
 use camera::Camera;
 use wgpu::{util::DeviceExt, BufferDescriptor};
 
+use crate::Size;
+
 pub struct State {
     surface: wgpu::Surface,
     config: wgpu::SurfaceConfiguration,
@@ -39,7 +41,7 @@ pub struct State {
 }
 
 impl State {
-    pub async fn new(window: &winit::window::Window) -> Self {
+    pub async fn new(window: &winit::window::Window, world_size: Option<Size>) -> Self {
         let size = window.inner_size();
 
         // First create the wgpu instance, choosing the primary backend
@@ -77,7 +79,11 @@ impl State {
         let camera = Camera::new(config.width as f32, config.height as f32);
 
         // Check if the world dimensions are ok
-        let mut uniforms = Uniforms::new(config.width as f32, config.height as f32);
+        let mut uniforms = match world_size {
+            Some(s) => world_size.,
+            None => Uniforms::new(config.width as f32, config.height as f32);
+,
+        }
         uniforms.update_view_proj(&camera);
 
         let uniform_buffer = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {

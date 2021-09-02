@@ -159,7 +159,11 @@ fn main() {
         _ => {}
     });
 
-    let (ctx, cb) = thomas::ContextBuilder::new().with_world_dimension((game.x, game.y, game.z)).build();
+    let mut g = 10.0;
+
+    let (ctx, cb) = thomas::ContextBuilder::new()
+        .with_world_dimension((game.x, game.y, game.z))
+        .build();
 
     thomas::main::run(ctx, cb, game);
 }

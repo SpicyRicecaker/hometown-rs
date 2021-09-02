@@ -76,14 +76,16 @@ impl State {
 
         surface.configure(&device, &config);
 
-        let camera = Camera::new(config.width as f32, config.height as f32);
+        // If user defined a world size, set it as the perspective matrix, otherwise just use
+        // the size of the screen
+        let camera = if let Some(size) = world_size {
+            Camera::new(size.x, size.y, 0.1, size.z)
+        } else {
+            Camera::new(config.width as f32, config.height as f32, 0.1, 100.0)
+        };
 
         // Check if the world dimensions are ok
-        let mut uniforms = match world_size {
-            Some(s) => world_size.,
-            None => Uniforms::new(config.width as f32, config.height as f32);
-,
-        }
+        let mut uniforms = Uniforms::new();
         uniforms.update_view_proj(&camera);
 
         let uniform_buffer = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {

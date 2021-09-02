@@ -146,6 +146,18 @@ impl Runnable for Game {
     }
     fn render(&self, ctx: &mut Context) {
         self.raindrops.iter().for_each(|f| f.render(ctx));
+        // Draw a debug bounding box for the world
+        ctx.graphics.draw_square(
+            0.0,
+            0.0,
+            2000.0,
+            thomas::frontend::color::Color {
+                r: 256,
+                g: 256,
+                b: 256,
+                a: 20,
+            },
+        );
     }
 }
 
@@ -159,10 +171,8 @@ fn main() {
         _ => {}
     });
 
-    let mut g = 10.0;
-
     let (ctx, cb) = thomas::ContextBuilder::new()
-        .with_world_dimension((game.x, game.y, game.z))
+        .with_world_dimension((game.x, game.y, game.z).into())
         .build();
 
     thomas::main::run(ctx, cb, game);

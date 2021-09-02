@@ -11,7 +11,6 @@
 struct Uniforms {
     // Matrix that transforms perspective
     view: mat4x4<f32>;
-    model: mat4x4<f32>;
 };
 // inside the render_pipeline_layout, the idx corresponsinds to idx in group
 // group(0) would be the texture_binding
@@ -48,7 +47,7 @@ fn main (
 
     // // view is for camera
     // // model converts screen coords from 0-[max screensize] (e.g., (400, 599)) to normalized coords from 0-1 (e.g., (0.5122123, 0.99231))
-    out.clip_position = uniforms.view * uniforms.model * vec4<f32>(model.position, 1.0);
+    out.clip_position = uniforms.view * vec4<f32>(model.position, 1.0);
     // out.clip_position = uniforms.model * vec4<f32>(model.position, 1.0);
     out.color = model.color;
     // out.clip_position = uniforms.model * vec4<f32>(model.position, 1.0);

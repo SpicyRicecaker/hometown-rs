@@ -123,7 +123,6 @@ impl State {
     /// Occurs when the world dimensions change. Is not affected by the size of the physical
     /// window. TODO is current run once in initialization, but it's sorta redundant. I don't
     /// want to pass the size into state tho, if you know what I mean...
-    pub fn resize_game(&mut self, x: f32, y: f32 ) {
-        self.uniforms.update_model(x, y);
+    pub fn resize_game(&mut self) {
     }
 }

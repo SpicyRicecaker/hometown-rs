@@ -12,5 +12,3 @@ struct Frustrum {
 struct Any {
     any: thomas::cgmath::Vector3<f32>
 }
-
-/// Finally, how does ggez do it?i

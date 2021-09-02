@@ -60,6 +60,7 @@ use std::path::PathBuf;
 use std::time::Instant;
 pub use wgpu::Color;
 
+#[derive(Debug, Clone, Copy)]
 pub struct Size {
     /// Left to right
     x: f32,
@@ -76,6 +77,16 @@ impl Default for Size {
             x: Default::default(),
             y: Default::default(),
             z: Default::default(),
+        }
+    }
+}
+
+impl From<(f32, f32, f32)> for Size {
+    fn from(tuple: (f32, f32, f32)) -> Self {
+        Self {
+            x: tuple.0,
+            y: tuple.1,
+            z: tuple.2
         }
     }
 }

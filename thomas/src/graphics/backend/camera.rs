@@ -1,3 +1,7 @@
+/// [`Camera`]: Uses a perspective view matrix (from [`cgmath::perspective`]). 
+/// If you're creating a pure 2d game *without zoom*, this class is not needed at all. 
+/// Instead, just create a uniform view matrix with [`cgmath::ortho`].
+/// TODO Update `tetris-wgpu-rs` to remove redundant model matrix
 pub struct Camera {
     pub eye: cgmath::Point3<f32>,
     pub target: cgmath::Point3<f32>,
@@ -9,7 +13,8 @@ pub struct Camera {
 }
 
 impl Camera {
-    pub fn new(width: f32, height: f32) -> Self {
+    /// Takes in width and height for the aspect ratio, z for the view distance
+    pub fn new(width: f32, height: f32, z_near: f32, z_far: f32) -> Self {
         Camera {
             // x is your horizontal location <- ->
             // y is your vertical location V ^
@@ -19,8 +24,8 @@ impl Camera {
             up: cgmath::Vector3::unit_y(),
             aspect_ratio: (width / height) / 2.0,
             fov: 45.0,
-            z_near: 0.1,
-            z_far: 100.0,
+            z_near,
+            z_far,
         }
     }
     pub fn build_view_projection_matrix(&self) -> cgmath::Matrix4<f32> {

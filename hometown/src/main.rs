@@ -146,6 +146,7 @@ impl Runnable for Game {
     }
     fn render(&self, ctx: &mut Context) {
         self.raindrops.iter().for_each(|f| f.render(ctx));
+
         // Draw a debug bounding box for the world
         ctx.graphics.draw_square(
             0.0,

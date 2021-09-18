@@ -9,6 +9,11 @@ impl CameraController {
     }
 
     pub fn tick(&self, ctx: &mut crate::context::Context) {
+        // WASD to move around the xz plane
+
+        // Space and shift to move y up and down
+
+        // Mouse movement to change camera
         let camera = &mut ctx.graphics.camera;
 
         use cgmath::InnerSpace;

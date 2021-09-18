@@ -86,7 +86,7 @@ impl From<(f32, f32, f32)> for Size {
         Self {
             x: tuple.0,
             y: tuple.1,
-            z: tuple.2
+            z: tuple.2,
         }
     }
 }
@@ -196,8 +196,10 @@ impl ContextBuilder {
         });
 
         // Init [`wgpu`]
-        let graphics =
-            futures::executor::block_on(graphics::backend::State::new(&window, self.config.world_size));
+        let graphics = futures::executor::block_on(graphics::backend::State::new(
+            &window,
+            self.config.world_size,
+        ));
         // Init keyboard controller
         let keyboard = keyboard::Keyboard::new();
 
@@ -324,6 +326,7 @@ pub mod main {
                         wgpu::Color::GREEN,
                         20.0,
                     );
+                    // Write ticks
                     context.graphics.draw_text(
                         &format!("Ticks/s: {}", average_ticks),
                         140.0,
@@ -331,6 +334,29 @@ pub mod main {
                         wgpu::Color::GREEN,
                         20.0,
                     );
+                    // Write current position of eye in XYZ
+                    context.graphics.draw_text(
+                        &format!("Eye: {:#?}", context.graphics.camera.eye),
+                        280.0,
+                        0.0,
+                        wgpu::Color::GREEN,
+                        20.0,
+                    );
+                    context.graphics.draw_text(
+                        &format!("Target: {:#?}", context.graphics.camera.target),
+                        500.0,
+                        0.0,
+                        wgpu::Color::GREEN,
+                        20.0,
+                    );
+
+                    // context.graphics.draw_text(
+                    //     &format!("Eye: {}", context.)
+                    // );
+
+                    // context.graphics.draw_text(
+                    //     &format!("Target: {}", average)
+                    // );
 
                     context.graphics.update();
                     match context.graphics.render() {

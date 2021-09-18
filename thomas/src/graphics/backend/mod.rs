@@ -1,6 +1,6 @@
 mod bg;
 pub mod buffers;
-mod camera;
+pub mod camera;
 mod font;
 mod pipeline;
 pub mod render;

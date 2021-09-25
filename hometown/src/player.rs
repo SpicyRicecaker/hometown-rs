@@ -27,6 +27,16 @@ impl Default for Player {
 }
 
 impl Player {
-    fn tick(_ctx: &mut Context) {}
+    fn input(ctx: &mut Context) {
+        // W moves player forward (+z)
+        if ctx.keyboard.w {
+
+        }
+        // A moves player left (-x)
+        // S moves player backward (-x)
+        // D moves player backward (-x)
+    }
+    fn tick(_ctx: &mut Context) {
+    }
     fn render(ctx: &mut Context) {}
 }

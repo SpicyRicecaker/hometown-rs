@@ -332,6 +332,9 @@ pub mod main {
                     // Write current target of eye in XYZ
                     context.debugger.queue( format!("Target: {:#?}", context.graphics.camera.eye));
 
+                    // Render all debug messages
+                    context.debugger.render(&mut context.graphics);
+
                     context.graphics.update();
                     match context.graphics.render() {
                         Ok(_) => {}

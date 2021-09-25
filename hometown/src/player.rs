@@ -64,11 +64,16 @@ impl Player {
             self.dy = self.velocity;
         }
     }
-    fn tick(&mut self, _ctx: &mut Context) {
+    pub fn tick(&mut self, _ctx: &mut Context) {
+        self.input(_ctx);
         // Apply dx, dy, and dz
         self.x += self.dx;
         self.y += self.dy;
         self.z += self.dz;
     }
-    fn render(ctx: &mut Context) {}
+    pub fn render(&self, ctx: &mut Context) {
+        // Debug player position
+        ctx.debugger
+            .queue(format!("pos: {}/{}/{}", self.x, self.y, self.z));
+    }
 }

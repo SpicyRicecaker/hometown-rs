@@ -1,6 +1,6 @@
 use crate::{context::Context, graphics::backend::State};
 
-const FONT_SIZE: f32 = 20.0;
+const FONT_SIZE: f32 = 30.0;
 const COLOR: wgpu::Color = wgpu::Color::GREEN;
 
 // struct DebugInfo {
@@ -30,6 +30,9 @@ impl Debugger {
             // add to current row len for a tentative size
             let predicted_len = debug_len + end_x;
 
+            // println!("The len of {} is {}", d, debug_len);
+            // println!("Max len is {}", max_width);
+
             match predicted_len.partial_cmp(&max_width) {
                 // if the tentative size is less than or equal to max width
                 Some(std::cmp::Ordering::Less) | Some(std::cmp::Ordering::Equal) => {
@@ -49,6 +52,9 @@ impl Debugger {
                 }
             }
         });
+
+        // Make sure to clear queue lol
+        self.queue.clear();
     }
 }
 

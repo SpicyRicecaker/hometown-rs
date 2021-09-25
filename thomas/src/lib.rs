@@ -328,9 +328,9 @@ pub mod main {
                     // Write ticks
                     context.debugger.queue(format!("Ticks/s: {}", average_ticks));
                     // Write current position of eye in XYZ
-                    context.debugger.queue( format!("Eye: {:#?}", context.graphics.camera.eye));
+                    context.debugger.queue( format!("Eye: {:?}", context.graphics.camera.eye));
                     // Write current target of eye in XYZ
-                    context.debugger.queue( format!("Target: {:#?}", context.graphics.camera.eye));
+                    context.debugger.queue( format!("Target: {:?}", context.graphics.camera.target));
 
                     // Render all debug messages
                     context.debugger.render(&mut context.graphics);

@@ -84,7 +84,16 @@ impl RainDropMachine<Falling> {
 
         // dbg!(self.state.x, self.state.y, self.state.z, self.state.x + x, self.state.y + y, self.state.z + z, self.state.thickness, Color::from_hex("FFFFFF").unwrap());
 
-        ctx.graphics.draw_line_3d(self.state.x, 2000.0 - self.state.y, self.state.z, self.state.x + x, 2000.0 - (self.state.y + y), self.state.z + z, self.state.thickness, Color::from_hex("FFFFFF").unwrap())
+        ctx.graphics.draw_line_3d(
+            self.state.x,
+            2000.0 - self.state.y,
+            self.state.z,
+            self.state.x + x,
+            2000.0 - (self.state.y + y),
+            self.state.z + z,
+            self.state.thickness,
+            Color::from_hex("FFFFFF").unwrap(),
+        )
     }
 }
 

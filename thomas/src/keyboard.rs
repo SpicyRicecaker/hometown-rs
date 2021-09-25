@@ -15,6 +15,7 @@ pub struct Keyboard {
     pub z: bool,
     pub c: bool,
     pub space: bool,
+    pub shift: bool,
 }
 
 impl Keyboard {
@@ -34,28 +35,30 @@ impl Keyboard {
             z: false,
             c: false,
             space: false,
+            shift: false,
         }
     }
 
-    pub fn is_pressed(&mut self, key: VirtualKeyCode) -> bool {
-        match key {
-            VirtualKeyCode::Up => self.up,
-            VirtualKeyCode::Down => self.down,
-            VirtualKeyCode::Left => self.left,
-            VirtualKeyCode::Right => self.right,
-            VirtualKeyCode::Equals => self.plus,
-            VirtualKeyCode::Minus => self.minus,
-            VirtualKeyCode::W => self.w,
-            VirtualKeyCode::S => self.s,
-            VirtualKeyCode::A => self.a,
-            VirtualKeyCode::D => self.d,
-            VirtualKeyCode::R => self.r,
-            VirtualKeyCode::Z => self.z,
-            VirtualKeyCode::C => self.c,
-            VirtualKeyCode::Space => self.space,
-            _ => false,
-        }
-    }
+    // pub fn is_pressed(&mut self, key: VirtualKeyCode) -> bool {
+    //     match key {
+    //         VirtualKeyCode::Up => self.up,
+    //         VirtualKeyCode::Down => self.down,
+    //         VirtualKeyCode::Left => self.left,
+    //         VirtualKeyCode::Right => self.right,
+    //         VirtualKeyCode::Equals => self.plus,
+    //         VirtualKeyCode::Minus => self.minus,
+    //         VirtualKeyCode::W => self.w,
+    //         VirtualKeyCode::S => self.s,
+    //         VirtualKeyCode::A => self.a,
+    //         VirtualKeyCode::D => self.d,
+    //         VirtualKeyCode::R => self.r,
+    //         VirtualKeyCode::Z => self.z,
+    //         VirtualKeyCode::C => self.c,
+    //         VirtualKeyCode::Space => self.space,
+    //         VirtualKeyCode::LShift => self.shift,
+    //         _ => false,
+    //     }
+    // }
 
     pub fn input(&mut self, event: &WindowEvent) -> bool {
         match event {
@@ -124,6 +127,10 @@ impl Keyboard {
                     }
                     VirtualKeyCode::Space => {
                         self.space = is_pressed;
+                        true
+                    }
+                    VirtualKeyCode::LShift => {
+                        self.shift = is_pressed;
                         true
                     }
                     _ => false,

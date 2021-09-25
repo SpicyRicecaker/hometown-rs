@@ -39,9 +39,11 @@ thomas::main::run(event_loop, ctx, universe);
 pub mod context;
 use audio::Audio;
 use context::Context;
+mod debugger;
 pub mod graphics;
 mod keyboard;
 pub use cgmath;
+use debugger::Debugger;
 pub use graphics::frontend;
 use image::GenericImageView;
 use resource::ResourceManager;
@@ -210,6 +212,8 @@ impl ContextBuilder {
 
         let audio = Audio::new();
 
+        let debugger = Debugger::new();
+
         let context = Context {
             graphics,
             keyboard,
@@ -218,6 +222,7 @@ impl ContextBuilder {
             // Doesn't matter if we move here 'cause self is consumed
             config: self.config,
             resource_mgr,
+            debugger
         };
 
         (event_loop, context)
@@ -319,44 +324,13 @@ pub mod main {
                     state.render(&mut context);
 
                     // Write fps
-                    context.graphics.draw_text(
-                        &format!("FPS: {}", average_frames),
-                        0.0,
-                        0.0,
-                        wgpu::Color::GREEN,
-                        20.0,
-                    );
+                    context.debugger.queue(format!("FPS: {}", average_frames));
                     // Write ticks
-                    context.graphics.draw_text(
-                        &format!("Ticks/s: {}", average_ticks),
-                        140.0,
-                        0.0,
-                        wgpu::Color::GREEN,
-                        20.0,
-                    );
+                    context.debugger.queue(format!("Ticks/s: {}", average_ticks));
                     // Write current position of eye in XYZ
-                    context.graphics.draw_text(
-                        &format!("Eye: {:#?}", context.graphics.camera.eye),
-                        280.0,
-                        0.0,
-                        wgpu::Color::GREEN,
-                        20.0,
-                    );
-                    context.graphics.draw_text(
-                        &format!("Target: {:#?}", context.graphics.camera.target),
-                        500.0,
-                        0.0,
-                        wgpu::Color::GREEN,
-                        20.0,
-                    );
-
-                    // context.graphics.draw_text(
-                    //     &format!("Eye: {}", context.)
-                    // );
-
-                    // context.graphics.draw_text(
-                    //     &format!("Target: {}", average)
-                    // );
+                    context.debugger.queue( format!("Eye: {:#?}", context.graphics.camera.eye));
+                    // Write current target of eye in XYZ
+                    context.debugger.queue( format!("Target: {:#?}", context.graphics.camera.eye));
 
                     context.graphics.update();
                     match context.graphics.render() {
